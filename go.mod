@@ -17,6 +17,7 @@ require (
 	github.com/flosch/pongo2 v0.0.0-20190707114632-bbf5a6c351f4 // indirect
 	github.com/gavv/monotime v0.0.0-20190418164738-30dba4353424 // indirect
 	github.com/go-redis/redis v6.15.5+incompatible
+	github.com/go-redis/redis_rate v6.5.0+incompatible
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/schema v1.1.0 // indirect
@@ -25,6 +26,7 @@ require (
 	github.com/iris-contrib/formBinder v5.0.0+incompatible // indirect
 	github.com/iris-contrib/go.uuid v2.0.0+incompatible // indirect
 	github.com/iris-contrib/httpexpect v0.0.0-20180314041918-ebe99fcebbce // indirect
+	github.com/iris-contrib/middleware v0.0.0-20190816193017-7838277651e8
 	github.com/jinzhu/gorm v1.9.10
 	github.com/json-iterator/go v1.1.7
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
@@ -57,4 +59,5 @@ require (
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	go.uber.org/dig v1.7.0
+	golang.org/x/time v0.0.0-20181108054448-85acf8d2951c
 )
