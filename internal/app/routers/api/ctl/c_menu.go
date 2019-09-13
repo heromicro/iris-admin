@@ -27,7 +27,7 @@ type Menu struct {
 
 // Query 查询数据
 func (a *Menu) Query(c *iris.Context) {
-	switch c.Query("q") {
+	switch c.URLParam("q") {
 	case "page":
 		a.QueryPage(c)
 	case "tree":
@@ -52,14 +52,14 @@ func (a *Menu) Query(c *iris.Context) {
 // @Router GET /api/v1/menus?q=page
 func (a *Menu) QueryPage(c *iris.Context) {
 	params := schema.MenuQueryParam{
-		LikeName: c.Query("name"),
+		LikeName: c.URLParam("name"),
 	}
 
-	if v := c.Query("parent_id"); v != "" {
+	if v := c.URLParam("parent_id"); v != "" {
 		params.ParentID = &v
 	}
 
-	if v := c.Query("hidden"); v != "" {
+	if v := c.URLParam("hidden"); v != "" {
 		if hidden := util.S(v).DefaultInt(0); hidden > -1 {
 			params.Hidden = &hidden
 		}
@@ -87,8 +87,8 @@ func (a *Menu) QueryPage(c *iris.Context) {
 // @Router GET /api/v1/menus?q=tree
 func (a *Menu) QueryTree(c *iris.Context) {
 	result, err := a.MenuBll.Query(irisplus.NewContext(c), schema.MenuQueryParam{}, schema.MenuQueryOptions{
-		IncludeActions:   c.Query("include_actions") == "1",
-		IncludeResources: c.Query("include_resources") == "1",
+		IncludeActions:   c.URLParam("include_actions") == "1",
+		IncludeResources: c.URLParam("include_resources") == "1",
 	})
 	if err != nil {
 		irisplus.ResError(c, err)

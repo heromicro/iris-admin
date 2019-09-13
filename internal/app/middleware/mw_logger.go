@@ -22,29 +22,29 @@ func LoggerMiddleware(skipper ...SkipperFunc) iris.HandlerFunc {
 			return
 		}
 
-		p := c.Request.URL.Path
-		method := c.Request.Method
+		p := c.Request().URL.Path
+		method := c.Request().Method
 		span := logger.StartSpan(irisplus.NewContext(c), logger.SetSpanTitle("访问日志"), logger.SetSpanFuncName(JoinRouter(method, p)))
 		start := time.Now()
 
 		fields := make(map[string]interface{})
-		fields["ip"] = c.ClientIP()
+		fields["ip"] = c.RemoteAddr()
 		fields["method"] = method
-		fields["url"] = c.Request.URL.String()
-		fields["proto"] = c.Request.Proto
-		fields["header"] = c.Request.Header
+		fields["url"] = c.Request().URL.String()
+		fields["proto"] = c.Request().Proto
+		fields["header"] = c.Request().Header
 		fields["user_agent"] = c.GetHeader("User-Agent")
 
 		// 如果是POST/PUT请求，并且内容类型为JSON，则读取内容体
 		if method == http.MethodPost || method == http.MethodPut {
 			mediaType, _, _ := mime.ParseMediaType(c.GetHeader("Content-Type"))
 			if mediaType == "application/json" {
-				body, err := ioutil.ReadAll(c.Request.Body)
-				c.Request.Body.Close()
+				body, err := ioutil.ReadAll(c.Request().Body)
+				c.Request().Body.Close()
 				if err == nil {
 					buf := bytes.NewBuffer(body)
-					c.Request.Body = ioutil.NopCloser(buf)
-					fields["content_length"] = c.Request.ContentLength
+					c.Request().Body = ioutil.NopCloser(buf)
+					fields["content_length"] = c.Request().ContentLength
 					fields["body"] = string(body)
 				}
 			}
@@ -61,7 +61,7 @@ func LoggerMiddleware(skipper ...SkipperFunc) iris.HandlerFunc {
 		}
 		fields[logger.UserIDKey] = irisplus.GetUserID(c)
 		span.WithFields(fields).Infof("[http] %s-%s-%s-%d(%dms)",
-			p, c.Request.Method, c.ClientIP(), c.Writer.Status(), timeConsuming)
+			p, c.Request().Method, c.RemoteAddr(), c.Writer.Status(), timeConsuming)
 	}
 }
 

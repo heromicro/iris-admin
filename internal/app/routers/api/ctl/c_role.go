@@ -26,7 +26,7 @@ type Role struct {
 
 // Query 查询数据
 func (a *Role) Query(c *iris.Context) {
-	switch c.Query("q") {
+	switch c.URLParam("q") {
 	case "page":
 		a.QueryPage(c)
 	case "select":
@@ -49,7 +49,7 @@ func (a *Role) Query(c *iris.Context) {
 // @Router GET /api/v1/roles?q=page
 func (a *Role) QueryPage(c *iris.Context) {
 	var params schema.RoleQueryParam
-	params.LikeName = c.Query("name")
+	params.LikeName = c.URLParam("name")
 
 	result, err := a.RoleBll.Query(irisplus.NewContext(c), params, schema.RoleQueryOptions{
 		PageParam: irisplus.GetPaginationParam(c),

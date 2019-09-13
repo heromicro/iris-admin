@@ -49,13 +49,13 @@ func (a *Login) GetCaptcha(c *iris.Context) {
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/pub/login/captcha
 func (a *Login) ResCaptcha(c *iris.Context) {
-	captchaID := c.Query("id")
+	captchaID := c.URLParam("id")
 	if captchaID == "" {
 		irisplus.ResError(c, errors.ErrInvalidRequestParameter)
 		return
 	}
 
-	if c.Query("reload") != "" {
+	if c.URLParam("reload") != "" {
 		if !captcha.Reload(captchaID) {
 			irisplus.ResError(c, errors.ErrInvalidRequestParameter)
 			return

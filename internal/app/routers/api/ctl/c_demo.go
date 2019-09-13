@@ -29,7 +29,7 @@ type Demo struct {
 
 // Query 查询数据
 func (a *Demo) Query(c *iris.Context) {
-	switch c.Query("q") {
+	switch c.URLParam("q") {
 	case "page":
 		a.QueryPage(c)
 	default:
@@ -52,9 +52,9 @@ func (a *Demo) Query(c *iris.Context) {
 // @Router GET /api/v1/demos?q=page
 func (a *Demo) QueryPage(c *iris.Context) {
 	var params schema.DemoQueryParam
-	params.LikeCode = c.Query("code")
-	params.LikeName = c.Query("name")
-	params.Status = util.S(c.Query("status")).DefaultInt(0)
+	params.LikeCode = c.URLParam("code")
+	params.LikeName = c.URLParam("name")
+	params.Status = util.S(c.URLParam("status")).DefaultInt(0)
 
 	result, err := a.DemoBll.Query(irisplus.NewContext(c), params, schema.DemoQueryOptions{
 		PageParam: irisplus.GetPaginationParam(c),

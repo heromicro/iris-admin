@@ -30,7 +30,7 @@ type User struct {
 
 // Query 查询数据
 func (a *User) Query(c *iris.Context) {
-	switch c.Query("q") {
+	switch c.URLParam("q") {
 	case "page":
 		a.QueryPage(c)
 	default:
@@ -54,13 +54,13 @@ func (a *User) Query(c *iris.Context) {
 // @Router GET /api/v1/users?q=page
 func (a *User) QueryPage(c *iris.Context) {
 	var params schema.UserQueryParam
-	params.LikeUserName = c.Query("user_name")
-	params.LikeRealName = c.Query("real_name")
-	if v := util.S(c.Query("status")).DefaultInt(0); v > 0 {
+	params.LikeUserName = c.URLParam("user_name")
+	params.LikeRealName = c.URLParam("real_name")
+	if v := util.S(c.URLParam("status")).DefaultInt(0); v > 0 {
 		params.Status = v
 	}
 
-	if v := c.Query("role_ids"); v != "" {
+	if v := c.URLParam("role_ids"); v != "" {
 		params.RoleIDs = strings.Split(v, ",")
 	}
 

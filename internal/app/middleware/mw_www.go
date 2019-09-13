@@ -16,14 +16,14 @@ func WWWMiddleware(root string, skipper ...SkipperFunc) iris.HandlerFunc {
 			return
 		}
 
-		p := c.Request.URL.Path
+		p := c.Request().URL.Path
 		fpath := filepath.Join(root, filepath.FromSlash(p))
 		_, err := os.Stat(fpath)
 		if err != nil && os.IsNotExist(err) {
 			fpath = filepath.Join(root, "index.html")
 		}
 
-		http.ServeFile(c.Writer, c.Request, fpath)
+		http.ServeFile(c.Writer, c.Request(), fpath)
 		c.Abort()
 	}
 }

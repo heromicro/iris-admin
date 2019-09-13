@@ -19,8 +19,8 @@ func CasbinMiddleware(enforcer *casbin.Enforcer, skipper ...SkipperFunc) iris.Ha
 			return
 		}
 
-		p := c.Request.URL.Path
-		m := c.Request.Method
+		p := c.Request().URL.Path
+		m := c.Request().Method
 		if b, err := enforcer.EnforceSafe(irisplus.GetUserID(c), p, m); err != nil {
 			irisplus.ResError(c, errors.WithStack(err))
 			return
