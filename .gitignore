@@ -21,7 +21,7 @@
 
 vendor/
 
-.idea/*
-.vscode/
+.idea
+.vscode
 
 
