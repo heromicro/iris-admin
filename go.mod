@@ -19,6 +19,7 @@ require (
 	github.com/go-redis/redis v6.15.5+incompatible
 	github.com/go-redis/redis_rate v6.5.0+incompatible
 	github.com/google/go-querystring v1.0.0 // indirect
+	github.com/google/gops v0.3.6
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/imkira/go-interpol v1.1.0 // indirect

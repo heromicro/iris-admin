@@ -3,7 +3,9 @@ package app
 import (
 	"context"
 
+	"github.com/wanhello/iris-admin/internal/app/bll"
 	"github.com/wanhello/iris-admin/internal/app/config"
+	"github.com/wanhello/iris-admin/internal/app/schema"
 	"github.com/wanhello/iris-admin/pkg/util"
 
 	"go.uber.org/dig"
