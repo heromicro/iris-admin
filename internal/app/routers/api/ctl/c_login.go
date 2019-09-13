@@ -63,7 +63,7 @@ func (a *Login) ResCaptcha(c *iris.Context) {
 	}
 
 	cfg := config.GetGlobalConfig().Captcha
-	err := a.LoginBll.ResCaptcha(irisplus.NewContext(c), c.Writer, captchaID, cfg.Width, cfg.Height)
+	err := a.LoginBll.ResCaptcha(irisplus.NewContext(c), c.ResponseWriter(), captchaID, cfg.Width, cfg.Height)
 	if err != nil {
 		irisplus.ResError(c, err)
 	}

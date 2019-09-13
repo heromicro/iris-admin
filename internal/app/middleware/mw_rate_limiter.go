@@ -52,7 +52,7 @@ func RateLimiterMiddleware(skipper ...SkipperFunc) iris.HandlerFunc {
 		limit := cfg.Count
 		rate, delay, allowed := limiter.AllowMinute(userID, limit)
 		if !allowed {
-			h := c.Writer.Header()
+			h := c.ResponseWriter().Header()
 			h.Set("X-RateLimit-Limit", strconv.FormatInt(limit, 10))
 			h.Set("X-RateLimit-Remaining", strconv.FormatInt(limit-rate, 10))
 			delaySec := int64(delay / time.Second)

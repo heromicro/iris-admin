@@ -52,8 +52,8 @@ func LoggerMiddleware(skipper ...SkipperFunc) iris.HandlerFunc {
 		c.Next()
 
 		timeConsuming := time.Since(start).Nanoseconds() / 1e6
-		fields["res_status"] = c.Writer.Status()
-		fields["res_length"] = c.Writer.Size()
+		fields["res_status"] = c.ResponseWriter().Status()
+		fields["res_length"] = c.ResponseWriter().Size()
 		if v, ok := c.Get(irisplus.ResBodyKey); ok {
 			if b, ok := v.([]byte); ok {
 				fields["res_body"] = string(b)
@@ -61,7 +61,7 @@ func LoggerMiddleware(skipper ...SkipperFunc) iris.HandlerFunc {
 		}
 		fields[logger.UserIDKey] = irisplus.GetUserID(c)
 		span.WithFields(fields).Infof("[http] %s-%s-%s-%d(%dms)",
-			p, c.Request().Method, c.RemoteAddr(), c.Writer.Status(), timeConsuming)
+			p, c.Request().Method, c.RemoteAddr(), c.ResponseWriter().Status(), timeConsuming)
 	}
 }
 

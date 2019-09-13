@@ -23,7 +23,7 @@ func WWWMiddleware(root string, skipper ...SkipperFunc) iris.HandlerFunc {
 			fpath = filepath.Join(root, "index.html")
 		}
 
-		http.ServeFile(c.Writer, c.Request(), fpath)
+		http.ServeFile(c.ResponseWriter(), c.Request(), fpath)
 		c.Abort()
 	}
 }
