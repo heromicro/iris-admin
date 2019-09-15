@@ -16,7 +16,7 @@ import (
 
 // UserAuthMiddleware 用户授权中间件
 func UserAuthMiddleware(a auth.Auther, skipper ...SkipperFunc) iris.HandlerFunc {
-	return func(c *iris.Context) {
+	return func(c iris.Context) {
 		var userID string
 		if t := irisplus.GetToken(c); t != "" {
 			id, err := a.ParseUserID(t)

@@ -31,7 +31,7 @@ type Login struct {
 // @Summary 获取验证码信息
 // @Success 200 schema.LoginCaptcha
 // @Router GET /api/v1/pub/login/captchaid
-func (a *Login) GetCaptcha(c *iris.Context) {
+func (a *Login) GetCaptcha(c iris.Context) {
 	item, err := a.LoginBll.GetCaptcha(irisplus.NewContext(c), config.GetGlobalConfig().Captcha.Length)
 	if err != nil {
 		irisplus.ResError(c, err)
@@ -48,7 +48,7 @@ func (a *Login) GetCaptcha(c *iris.Context) {
 // @Failure 400 schema.HTTPError "{error:{code:0,message:无效的请求参数}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/pub/login/captcha
-func (a *Login) ResCaptcha(c *iris.Context) {
+func (a *Login) ResCaptcha(c iris.Context) {
 	captchaID := c.URLParam("id")
 	if captchaID == "" {
 		irisplus.ResError(c, errors.ErrInvalidRequestParameter)
@@ -76,7 +76,7 @@ func (a *Login) ResCaptcha(c *iris.Context) {
 // @Failure 400 schema.HTTPError "{error:{code:0,message:无效的请求参数}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router POST /api/v1/pub/login
-func (a *Login) Login(c *iris.Context) {
+func (a *Login) Login(c iris.Context) {
 	var item schema.LoginParam
 	if err := irisplus.ParseJSON(c, &item); err != nil {
 		irisplus.ResError(c, err)
@@ -112,7 +112,7 @@ func (a *Login) Login(c *iris.Context) {
 // @Summary 用户登出
 // @Success 200 schema.HTTPStatus "{status:OK}"
 // @Router POST /api/v1/pub/login/exit
-func (a *Login) Logout(c *iris.Context) {
+func (a *Login) Logout(c iris.Context) {
 	// 检查用户是否处于登录状态，如果是则执行销毁
 	userID := irisplus.GetUserID(c)
 	if userID != "" {
@@ -133,7 +133,7 @@ func (a *Login) Logout(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router POST /api/v1/pub/refresh_token
-func (a *Login) RefreshToken(c *iris.Context) {
+func (a *Login) RefreshToken(c iris.Context) {
 	tokenInfo, err := a.LoginBll.GenerateToken(irisplus.NewContext(c), irisplus.GetUserID(c))
 	if err != nil {
 		irisplus.ResError(c, err)
@@ -149,7 +149,7 @@ func (a *Login) RefreshToken(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/pub/current/user
-func (a *Login) GetUserInfo(c *iris.Context) {
+func (a *Login) GetUserInfo(c iris.Context) {
 	info, err := a.LoginBll.GetLoginInfo(irisplus.NewContext(c), irisplus.GetUserID(c))
 	if err != nil {
 		irisplus.ResError(c, err)
@@ -165,7 +165,7 @@ func (a *Login) GetUserInfo(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/pub/current/menutree
-func (a *Login) QueryUserMenuTree(c *iris.Context) {
+func (a *Login) QueryUserMenuTree(c iris.Context) {
 	menus, err := a.LoginBll.QueryUserMenuTree(irisplus.NewContext(c), irisplus.GetUserID(c))
 	if err != nil {
 		irisplus.ResError(c, err)
@@ -183,7 +183,7 @@ func (a *Login) QueryUserMenuTree(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router PUT /api/v1/pub/current/password
-func (a *Login) UpdatePassword(c *iris.Context) {
+func (a *Login) UpdatePassword(c iris.Context) {
 	var item schema.UpdatePasswordParam
 	if err := irisplus.ParseJSON(c, &item); err != nil {
 		irisplus.ResError(c, err)

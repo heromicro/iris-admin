@@ -10,7 +10,7 @@ import (
 
 // WWWMiddleware 静态站点中间件
 func WWWMiddleware(root string, skipper ...SkipperFunc) iris.HandlerFunc {
-	return func(c *iris.Context) {
+	return func(c iris.Context) {
 		if len(skipper) > 0 && skipper[0](c) {
 			c.Next()
 			return

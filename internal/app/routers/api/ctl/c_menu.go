@@ -26,7 +26,7 @@ type Menu struct {
 }
 
 // Query 查询数据
-func (a *Menu) Query(c *iris.Context) {
+func (a *Menu) Query(c iris.Context) {
 	switch c.URLParam("q") {
 	case "page":
 		a.QueryPage(c)
@@ -50,7 +50,7 @@ func (a *Menu) Query(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/menus?q=page
-func (a *Menu) QueryPage(c *iris.Context) {
+func (a *Menu) QueryPage(c iris.Context) {
 	params := schema.MenuQueryParam{
 		LikeName: c.URLParam("name"),
 	}
@@ -85,7 +85,7 @@ func (a *Menu) QueryPage(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/menus?q=tree
-func (a *Menu) QueryTree(c *iris.Context) {
+func (a *Menu) QueryTree(c iris.Context) {
 	result, err := a.MenuBll.Query(irisplus.NewContext(c), schema.MenuQueryParam{}, schema.MenuQueryOptions{
 		IncludeActions:   c.URLParam("include_actions") == "1",
 		IncludeResources: c.URLParam("include_resources") == "1",
@@ -107,8 +107,8 @@ func (a *Menu) QueryTree(c *iris.Context) {
 // @Failure 404 schema.HTTPError "{error:{code:0,message:资源不存在}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/menus/{id}
-func (a *Menu) Get(c *iris.Context) {
-	item, err := a.MenuBll.Get(irisplus.NewContext(c), c.Param("id"), schema.MenuQueryOptions{
+func (a *Menu) Get(c iris.Context) {
+	item, err := a.MenuBll.Get(irisplus.NewContext(c), c.URLParam("id"), schema.MenuQueryOptions{
 		IncludeActions:   true,
 		IncludeResources: true,
 	})
@@ -128,7 +128,7 @@ func (a *Menu) Get(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router POST /api/v1/menus
-func (a *Menu) Create(c *iris.Context) {
+func (a *Menu) Create(c iris.Context) {
 	var item schema.Menu
 	if err := irisplus.ParseJSON(c, &item); err != nil {
 		irisplus.ResError(c, err)
@@ -154,14 +154,14 @@ func (a *Menu) Create(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router PUT /api/v1/menus/{id}
-func (a *Menu) Update(c *iris.Context) {
+func (a *Menu) Update(c iris.Context) {
 	var item schema.Menu
 	if err := irisplus.ParseJSON(c, &item); err != nil {
 		irisplus.ResError(c, err)
 		return
 	}
 
-	nitem, err := a.MenuBll.Update(irisplus.NewContext(c), c.Param("id"), item)
+	nitem, err := a.MenuBll.Update(irisplus.NewContext(c), c.URLParam("id"), item)
 	if err != nil {
 		irisplus.ResError(c, err)
 		return
@@ -177,8 +177,8 @@ func (a *Menu) Update(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router DELETE /api/v1/menus/{id}
-func (a *Menu) Delete(c *iris.Context) {
-	err := a.MenuBll.Delete(irisplus.NewContext(c), c.Param("id"))
+func (a *Menu) Delete(c iris.Context) {
+	err := a.MenuBll.Delete(irisplus.NewContext(c), c.URLParam("id"))
 	if err != nil {
 		irisplus.ResError(c, err)
 		return

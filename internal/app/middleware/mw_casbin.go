@@ -13,7 +13,7 @@ import (
 // CasbinMiddleware casbin中间件
 func CasbinMiddleware(enforcer *casbin.Enforcer, skipper ...SkipperFunc) iris.HandlerFunc {
 	cfg := config.GetGlobalConfig()
-	return func(c *iris.Context) {
+	return func(c iris.Context) {
 		if !cfg.EnableCasbin || len(skipper) > 0 && skipper[0](c) {
 			c.Next()
 			return

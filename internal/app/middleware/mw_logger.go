@@ -16,7 +16,7 @@ import (
 
 // LoggerMiddleware 日志中间件
 func LoggerMiddleware(skipper ...SkipperFunc) iris.HandlerFunc {
-	return func(c *iris.Context) {
+	return func(c iris.Context) {
 		if len(skipper) > 0 && skipper[0](c) {
 			c.Next()
 			return

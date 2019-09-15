@@ -22,7 +22,7 @@ var (
 
 // RecoveryMiddleware 崩溃恢复中间件
 func RecoveryMiddleware() iris.HandlerFunc {
-	return func(c *iris.Context) {
+	return func(c iris.Context) {
 		defer func() {
 			if err := recover(); err != nil {
 				stack := stack(3)

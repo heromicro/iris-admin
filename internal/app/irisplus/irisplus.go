@@ -17,7 +17,7 @@ import (
 
 )
 
-type HandlerFunc func(*iris.Context)
+type HandlerFunc func(iris.Context)
 
 // 定义上下文中的键
 const (
@@ -31,7 +31,7 @@ const (
 )
 
 // NewContext 封装上线文入口
-func NewContext(c *iris.Context) context.Context {
+func NewContext(c iris.Context) context.Context {
 	parent := context.Background()
 
 	if v := GetTraceID(c); v != "" {
@@ -48,7 +48,7 @@ func NewContext(c *iris.Context) context.Context {
 }
 
 // GetToken 获取用户令牌
-func GetToken(c *iris.Context) string {
+func GetToken(c iris.Context) string {
 	var token string
 	auth := c.GetHeader("Authorization")
 	prefix := "Bearer "
@@ -59,7 +59,7 @@ func GetToken(c *iris.Context) string {
 }
 
 // GetPageIndex 获取分页的页索引
-func GetPageIndex(c *iris.Context) int {
+func GetPageIndex(c iris.Context) int {
 	defaultVal := 1
 	if v := c.URLParam("current"); v != "" {
 		if iv := util.S(v).DefaultInt(defaultVal); iv > 0 {
@@ -71,7 +71,7 @@ func GetPageIndex(c *iris.Context) int {
 
 
 // GetPageSize 获取分页的页大小(最大50)
-func GetPageSize(c *iris.Context) int {
+func GetPageSize(c iris.Context) int {
 	defaultVal := 10
 	if v := c.URLParam("pageSize"); v != "" {
 		if iv := util.S(v).DefaultInt(defaultVal); iv > 0 {
@@ -86,7 +86,7 @@ func GetPageSize(c *iris.Context) int {
 
 
 // GetPaginationParam 获取分页查询参数
-func GetPaginationParam(c *iris.Context) *schema.PaginationParam {
+func GetPaginationParam(c iris.Context) *schema.PaginationParam {
 	return &schema.PaginationParam{
 		PageIndex: GetPageIndex(c),
 		PageSize:  GetPageSize(c),
@@ -94,22 +94,24 @@ func GetPaginationParam(c *iris.Context) *schema.PaginationParam {
 }
 
 // GetTraceID 获取追踪ID
-func GetTraceID(c *iris.Context) string {
-	return c.GetString(TraceIDKey)
+func GetTraceID(c iris.Context) string {
+	//return c.GetString(TraceIDKey)
+	return c.URLParam(TraceIDKey)
 }
 
 // GetUserID 获取用户ID
-func GetUserID(c *iris.Context) string {
-	return c.GetString(UserIDKey)
+func GetUserID(c iris.Context) string {
+	//return c.GetString(UserIDKey)
+	return c.URLParam(UserIDKey)
 }
 
 // SetUserID 设定用户ID
-func SetUserID(c *iris.Context, userID string) {
+func SetUserID(c iris.Context, userID string) {
 	c.Set(UserIDKey, userID)
 }
 
 // ParseJSON 解析请求JSON
-func ParseJSON(c *iris.Context, obj interface{}) error {
+func ParseJSON(c iris.Context, obj interface{}) error {
 	if err := c.ShouldBindJSON(obj); err != nil {
 		logger.Warnf(NewContext(c), err.Error())
 		return errors.ErrInvalidRequestParameter
@@ -118,7 +120,7 @@ func ParseJSON(c *iris.Context, obj interface{}) error {
 }
 
 // ResPage 响应分页数据
-func ResPage(c *iris.Context, v interface{}, pr *schema.PaginationResult) {
+func ResPage(c iris.Context, v interface{}, pr *schema.PaginationResult) {
 	list := schema.HTTPList{
 		List: v,
 		Pagination: &schema.HTTPPagination{
@@ -134,22 +136,22 @@ func ResPage(c *iris.Context, v interface{}, pr *schema.PaginationResult) {
 }
 
 // ResList 响应列表数据
-func ResList(c *iris.Context, v interface{}) {
+func ResList(c iris.Context, v interface{}) {
 	ResSuccess(c, schema.HTTPList{List: v})
 }
 
 // ResOK 响应OK
-func ResOK(c *iris.Context) {
+func ResOK(c iris.Context) {
 	ResSuccess(c, schema.HTTPStatus{Status: "OK"})
 }
 
 // ResSuccess 响应成功
-func ResSuccess(c *iris.Context, v interface{}) {
+func ResSuccess(c iris.Context, v interface{}) {
 	ResJSON(c, http.StatusOK, v)
 }
 
 // ResJSON 响应JSON数据
-func ResJSON(c *iris.Context, status int, v interface{}) {
+func ResJSON(c iris.Context, status int, v interface{}) {
 	buf, err := util.JSONMarshal(v)
 	if err != nil {
 		panic(err)
@@ -160,7 +162,7 @@ func ResJSON(c *iris.Context, status int, v interface{}) {
 }
 
 // ResError 响应错误
-func ResError(c *iris.Context, err error, status ...int) {
+func ResError(c iris.Context, err error, status ...int) {
 	statusCode := 500
 	errItem := schema.HTTPErrorItem{
 		Code:    500,

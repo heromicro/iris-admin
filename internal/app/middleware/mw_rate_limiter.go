@@ -20,7 +20,7 @@ import (
 func RateLimiterMiddleware(skipper ...SkipperFunc) iris.HandlerFunc {
 	cfg := config.GetGlobalConfig().RateLimiter
 	if !cfg.Enable {
-		return func(c *iris.Context) {
+		return func(c iris.Context) {
 			c.Next()
 		}
 	}
@@ -37,7 +37,7 @@ func RateLimiterMiddleware(skipper ...SkipperFunc) iris.HandlerFunc {
 	limiter := redis_rate.NewLimiter(ring)
 	limiter.Fallback = rate.NewLimiter(rate.Inf, 0)
 
-	return func(c *iris.Context) {
+	return func(c iris.Context) {
 		if (len(skipper) > 0 && skipper[0](c)) || limiter == nil {
 			c.Next()
 			return

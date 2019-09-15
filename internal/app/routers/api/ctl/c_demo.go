@@ -28,7 +28,7 @@ type Demo struct {
 }
 
 // Query 查询数据
-func (a *Demo) Query(c *iris.Context) {
+func (a *Demo) Query(c iris.Context) {
 	switch c.URLParam("q") {
 	case "page":
 		a.QueryPage(c)
@@ -50,7 +50,7 @@ func (a *Demo) Query(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/demos?q=page
-func (a *Demo) QueryPage(c *iris.Context) {
+func (a *Demo) QueryPage(c iris.Context) {
 	var params schema.DemoQueryParam
 	params.LikeCode = c.URLParam("code")
 	params.LikeName = c.URLParam("name")
@@ -76,8 +76,8 @@ func (a *Demo) QueryPage(c *iris.Context) {
 // @Failure 404 schema.HTTPError "{error:{code:0,message:资源不存在}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/demos/{id}
-func (a *Demo) Get(c *iris.Context) {
-	item, err := a.DemoBll.Get(irisplus.NewContext(c), c.Param("id"))
+func (a *Demo) Get(c iris.Context) {
+	item, err := a.DemoBll.Get(irisplus.NewContext(c), c.URLParam("id"))
 	if err != nil {
 		irisplus.ResError(c, err)
 		return
@@ -94,7 +94,7 @@ func (a *Demo) Get(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router POST /api/v1/demos
-func (a *Demo) Create(c *iris.Context) {
+func (a *Demo) Create(c iris.Context) {
 	var item schema.Demo
 	if err := irisplus.ParseJSON(c, &item); err != nil {
 		irisplus.ResError(c, err)
@@ -120,14 +120,14 @@ func (a *Demo) Create(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router PUT /api/v1/demos/{id}
-func (a *Demo) Update(c *iris.Context) {
+func (a *Demo) Update(c iris.Context) {
 	var item schema.Demo
 	if err := irisplus.ParseJSON(c, &item); err != nil {
 		irisplus.ResError(c, err)
 		return
 	}
 
-	nitem, err := a.DemoBll.Update(irisplus.NewContext(c), c.Param("id"), item)
+	nitem, err := a.DemoBll.Update(irisplus.NewContext(c), c.URLParam("id"), item)
 	if err != nil {
 		irisplus.ResError(c, err)
 		return
@@ -143,8 +143,8 @@ func (a *Demo) Update(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router DELETE /api/v1/demos/{id}
-func (a *Demo) Delete(c *iris.Context) {
-	err := a.DemoBll.Delete(irisplus.NewContext(c), c.Param("id"))
+func (a *Demo) Delete(c iris.Context) {
+	err := a.DemoBll.Delete(irisplus.NewContext(c), c.URLParam("id"))
 	if err != nil {
 		irisplus.ResError(c, err)
 		return
@@ -160,8 +160,8 @@ func (a *Demo) Delete(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router PATCH /api/v1/demos/{id}/enable
-func (a *Demo) Enable(c *iris.Context) {
-	err := a.DemoBll.UpdateStatus(irisplus.NewContext(c), c.Param("id"), 1)
+func (a *Demo) Enable(c iris.Context) {
+	err := a.DemoBll.UpdateStatus(irisplus.NewContext(c), c.URLParam("id"), 1)
 	if err != nil {
 		irisplus.ResError(c, err)
 		return
@@ -177,8 +177,8 @@ func (a *Demo) Enable(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router PATCH /api/v1/demos/{id}/disable
-func (a *Demo) Disable(c *iris.Context) {
-	err := a.DemoBll.UpdateStatus(irisplus.NewContext(c), c.Param("id"), 2)
+func (a *Demo) Disable(c iris.Context) {
+	err := a.DemoBll.UpdateStatus(irisplus.NewContext(c), c.URLParam("id"), 2)
 	if err != nil {
 		irisplus.ResError(c, err)
 		return

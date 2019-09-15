@@ -25,7 +25,7 @@ type Role struct {
 }
 
 // Query 查询数据
-func (a *Role) Query(c *iris.Context) {
+func (a *Role) Query(c iris.Context) {
 	switch c.URLParam("q") {
 	case "page":
 		a.QueryPage(c)
@@ -47,7 +47,7 @@ func (a *Role) Query(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/roles?q=page
-func (a *Role) QueryPage(c *iris.Context) {
+func (a *Role) QueryPage(c iris.Context) {
 	var params schema.RoleQueryParam
 	params.LikeName = c.URLParam("name")
 
@@ -69,7 +69,7 @@ func (a *Role) QueryPage(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/roles?q=select
-func (a *Role) QuerySelect(c *iris.Context) {
+func (a *Role) QuerySelect(c iris.Context) {
 	result, err := a.RoleBll.Query(irisplus.NewContext(c), schema.RoleQueryParam{})
 	if err != nil {
 		irisplus.ResError(c, err)
@@ -87,8 +87,8 @@ func (a *Role) QuerySelect(c *iris.Context) {
 // @Failure 404 schema.HTTPError "{error:{code:0,message:资源不存在}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router GET /api/v1/roles/{id}
-func (a *Role) Get(c *iris.Context) {
-	item, err := a.RoleBll.Get(irisplus.NewContext(c), c.Param("id"), schema.RoleQueryOptions{
+func (a *Role) Get(c iris.Context) {
+	item, err := a.RoleBll.Get(irisplus.NewContext(c), c.URLParam("id"), schema.RoleQueryOptions{
 		IncludeMenus: true,
 	})
 	if err != nil {
@@ -107,7 +107,7 @@ func (a *Role) Get(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router POST /api/v1/roles
-func (a *Role) Create(c *iris.Context) {
+func (a *Role) Create(c iris.Context) {
 	var item schema.Role
 	if err := irisplus.ParseJSON(c, &item); err != nil {
 		irisplus.ResError(c, err)
@@ -134,14 +134,14 @@ func (a *Role) Create(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router PUT /api/v1/roles/{id}
-func (a *Role) Update(c *iris.Context) {
+func (a *Role) Update(c iris.Context) {
 	var item schema.Role
 	if err := irisplus.ParseJSON(c, &item); err != nil {
 		irisplus.ResError(c, err)
 		return
 	}
 
-	nitem, err := a.RoleBll.Update(irisplus.NewContext(c), c.Param("id"), item)
+	nitem, err := a.RoleBll.Update(irisplus.NewContext(c), c.URLParam("id"), item)
 	if err != nil {
 		irisplus.ResError(c, err)
 		return
@@ -157,8 +157,8 @@ func (a *Role) Update(c *iris.Context) {
 // @Failure 401 schema.HTTPError "{error:{code:0,message:未授权}}"
 // @Failure 500 schema.HTTPError "{error:{code:0,message:服务器错误}}"
 // @Router DELETE /api/v1/roles/{id}
-func (a *Role) Delete(c *iris.Context) {
-	err := a.RoleBll.Delete(irisplus.NewContext(c), c.Param("id"))
+func (a *Role) Delete(c iris.Context) {
+	err := a.RoleBll.Delete(irisplus.NewContext(c), c.URLParam("id"))
 	if err != nil {
 		irisplus.ResError(c, err)
 		return

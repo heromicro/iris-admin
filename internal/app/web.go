@@ -19,7 +19,7 @@ import (
 
 
 // InitWeb 初始化web引擎
-func InitWeb(container *dig.Container) *iris.Application {
+func InitWeb(container *dig.Container) iris.Application {
 	cfg := config.GetGlobalConfig()
 	iris.SetMode(cfg.RunMode)
 
