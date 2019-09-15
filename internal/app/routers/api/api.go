@@ -56,51 +56,51 @@ func RegisterRouter(app *iris.Application, container *dig.Container) error {
 			pub := v1.Party("/pub")
 			{
 				// 注册/api/v1/pub/login
-				pub.GET("/login/captchaid", cLogin.GetCaptcha)
-				pub.GET("/login/captcha", cLogin.ResCaptcha)
-				pub.POST("/login", cLogin.Login)
-				pub.POST("/login/exit", cLogin.Logout)
+				pub.Get("/login/captchaid", cLogin.GetCaptcha)
+				pub.Get("/login/captcha", cLogin.ResCaptcha)
+				pub.Post("/login", cLogin.Login)
+				pub.Post("/login/exit", cLogin.Logout)
 
 				// 注册/api/v1/pub/refresh_token
-				pub.POST("/refresh_token", cLogin.RefreshToken)
+				pub.Post("/refresh_token", cLogin.RefreshToken)
 
 				// 注册/api/v1/pub/current
-				pub.PUT("/current/password", cLogin.UpdatePassword)
-				pub.GET("/current/user", cLogin.GetUserInfo)
-				pub.GET("/current/menutree", cLogin.QueryUserMenuTree)
+				pub.Put("/current/password", cLogin.UpdatePassword)
+				pub.Get("/current/user", cLogin.GetUserInfo)
+				pub.Get("/current/menutree", cLogin.QueryUserMenuTree)
 			}
 
 			// 注册/api/v1/demos
-			v1.GET("/demos", cDemo.Query)
-			v1.GET("/demos/:id", cDemo.Get)
-			v1.POST("/demos", cDemo.Create)
-			v1.PUT("/demos/:id", cDemo.Update)
-			v1.DELETE("/demos/:id", cDemo.Delete)
-			v1.PATCH("/demos/:id/enable", cDemo.Enable)
-			v1.PATCH("/demos/:id/disable", cDemo.Disable)
+			v1.Get("/demos", cDemo.Query)
+			v1.Get("/demos/:id", cDemo.Get)
+			v1.Post("/demos", cDemo.Create)
+			v1.Put("/demos/:id", cDemo.Update)
+			v1.Delete("/demos/:id", cDemo.Delete)
+			v1.Patch("/demos/:id/enable", cDemo.Enable)
+			v1.Patch("/demos/:id/disable", cDemo.Disable)
 
 			// 注册/api/v1/menus
-			v1.GET("/menus", cMenu.Query)
-			v1.GET("/menus/:id", cMenu.Get)
-			v1.POST("/menus", cMenu.Create)
-			v1.PUT("/menus/:id", cMenu.Update)
-			v1.DELETE("/menus/:id", cMenu.Delete)
+			v1.Get("/menus", cMenu.Query)
+			v1.Get("/menus/:id", cMenu.Get)
+			v1.Post("/menus", cMenu.Create)
+			v1.Put("/menus/:id", cMenu.Update)
+			v1.Delete("/menus/:id", cMenu.Delete)
 
 			// 注册/api/v1/roles
-			v1.GET("/roles", cRole.Query)
-			v1.GET("/roles/:id", cRole.Get)
-			v1.POST("/roles", cRole.Create)
-			v1.PUT("/roles/:id", cRole.Update)
-			v1.DELETE("/roles/:id", cRole.Delete)
+			v1.Get("/roles", cRole.Query)
+			v1.Get("/roles/:id", cRole.Get)
+			v1.Post("/roles", cRole.Create)
+			v1.Put("/roles/:id", cRole.Update)
+			v1.Delete("/roles/:id", cRole.Delete)
 
 			// 注册/api/v1/users
-			v1.GET("/users", cUser.Query)
-			v1.GET("/users/:id", cUser.Get)
-			v1.POST("/users", cUser.Create)
-			v1.PUT("/users/:id", cUser.Update)
-			v1.DELETE("/users/:id", cUser.Delete)
-			v1.PATCH("/users/:id/enable", cUser.Enable)
-			v1.PATCH("/users/:id/disable", cUser.Disable)
+			v1.Get("/users", cUser.Query)
+			v1.Get("/users/:id", cUser.Get)
+			v1.Post("/users", cUser.Create)
+			v1.Put("/users/:id", cUser.Update)
+			v1.Delete("/users/:id", cUser.Delete)
+			v1.Patch("/users/:id/enable", cUser.Enable)
+			v1.Patch("/users/:id/disable", cUser.Disable)
 		}
 
 		return nil
