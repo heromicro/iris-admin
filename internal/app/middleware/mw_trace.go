@@ -20,7 +20,7 @@ func TraceMiddleware(skipper ...SkipperFunc) iris.HandlerFunc {
 		if traceID == "" {
 			traceID = util.MustUUID()
 		}
-		c.Set(irisplus.TraceIDKey, traceID)
+		c.Params().Set(irisplus.TraceIDKey, traceID)
 		c.Next()
 	}
 }

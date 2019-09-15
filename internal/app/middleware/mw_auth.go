@@ -32,7 +32,7 @@ func UserAuthMiddleware(a auth.Auther, skipper ...SkipperFunc) iris.HandlerFunc 
 		}
 
 		if userID != "" {
-			c.Set(irisplus.UserIDKey, userID)
+			c.Params().Set(irisplus.UserIDKey, userID)
 		}
 
 		if len(skipper) > 0 && skipper[0](c) {
@@ -42,7 +42,7 @@ func UserAuthMiddleware(a auth.Auther, skipper ...SkipperFunc) iris.HandlerFunc 
 
 		if userID == "" {
 			if config.GetGlobalConfig().RunMode == "debug" {
-				c.Set(irisplus.UserIDKey, config.GetGlobalConfig().Root.UserName)
+				c.Params().Set(irisplus.UserIDKey, config.GetGlobalConfig().Root.UserName)
 				c.Next()
 				return
 			}

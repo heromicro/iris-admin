@@ -73,7 +73,7 @@ func GetPageIndex(c iris.Context) int {
 // GetPageSize 获取分页的页大小(最大50)
 func GetPageSize(c iris.Context) int {
 	defaultVal := 10
-	if v := c.URLParam("pageSize"); v != "" {
+	if v := c.Params().Get("pageSize"); v != "" {
 		if iv := util.S(v).DefaultInt(defaultVal); iv > 0 {
 			if iv > 50 {
 				iv = 50
