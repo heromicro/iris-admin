@@ -29,7 +29,7 @@ func RegisterRouter(app *iris.Application, container *dig.Container) error {
 		cUser *ctl.User,
 	) error {
 
-		g := app.Group("/api")
+		g := app.Party("/api")
 
 		// 用户身份授权
 		g.Use(middleware.UserAuthMiddleware(
@@ -51,9 +51,9 @@ func RegisterRouter(app *iris.Application, container *dig.Container) error {
 		// 请求频率限制中间件
 		g.Use(middleware.RateLimiterMiddleware())
 
-		v1 := g.Group("/v1")
+		v1 := g.Party("/v1")
 		{
-			pub := v1.Group("/pub")
+			pub := v1.Party("/pub")
 			{
 				// 注册/api/v1/pub/login
 				pub.GET("/login/captchaid", cLogin.GetCaptcha)
