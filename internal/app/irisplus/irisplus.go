@@ -107,7 +107,7 @@ func GetUserID(c iris.Context) string {
 
 // SetUserID 设定用户ID
 func SetUserID(c iris.Context, userID string) {
-	c.Set(UserIDKey, userID)
+	c.Params().Set(UserIDKey, userID)
 }
 
 // ParseJSON 解析请求JSON
@@ -156,7 +156,7 @@ func ResJSON(c iris.Context, status int, v interface{}) {
 	if err != nil {
 		panic(err)
 	}
-	c.Set(ResBodyKey, buf)
+	c.Params().Set(ResBodyKey, string(buf) )
 	c.Data(status, "application/json; charset=utf-8", buf)
 	c.Abort()
 }

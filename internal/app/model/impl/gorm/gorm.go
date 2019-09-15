@@ -2,7 +2,12 @@ package gorm
 
 import (
 	"github.com/wanhello/iris-admin/internal/app/model"
+	"github.com/wanhello/iris-admin/internal/app/model/impl/gorm/internal/entity"
+	imodel "github.com/wanhello/iris-admin/internal/app/model/impl/gorm/internal/model"
+
 	"github.com/wanhello/iris-admin/pkg/gormplus"
+	"go.uber.org/dig"
+
 )
 
 // SetTablePrefix 设定表名前缀

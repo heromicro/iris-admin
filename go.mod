@@ -16,8 +16,11 @@ require (
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/flosch/pongo2 v0.0.0-20190707114632-bbf5a6c351f4 // indirect
 	github.com/gavv/monotime v0.0.0-20190418164738-30dba4353424 // indirect
-	github.com/go-redis/redis v6.15.5+incompatible
-	github.com/go-redis/redis_rate v6.5.0+incompatible
+	// github.com/go-redis/redis v6.15.5+incompatible
+	// github.com/go-redis/redis_rate v6.5.0+incompatible
+	github.com/go-redis/redis v0.0.0-20190609092923-f8704e4b6b43
+	github.com/go-redis/redis_rate v0.0.0-20180123081253-b7ae80ece379
+
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/google/gops v0.3.6
 	github.com/google/uuid v1.1.1
@@ -59,6 +62,7 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
-	go.uber.org/dig v1.7.0
+	// go.uber.org/dig v1.7.0
+	go.uber.org/dig v0.0.0-20190614173321-8a567bf6562e
 	golang.org/x/time v0.0.0-20181108054448-85acf8d2951c
 )
