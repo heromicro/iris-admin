@@ -17,6 +17,8 @@ import (
 
 )
 
+type HandlerFunc func(*iris.Context)
+
 // 定义上下文中的键
 const (
 	prefix = "irisadmin"

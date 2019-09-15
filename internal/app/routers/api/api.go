@@ -1,16 +1,19 @@
 package api
 
 import (
-	
-	
-	"go.uber.org/dig"
+	"github.com/casbin/casbin"
+	"github.com/kataras/iris"
+	"github.com/wanhello/iris-admin/internal/app/middleware"
+	"github.com/wanhello/iris-admin/internal/app/routers/api/ctl"
+	"github.com/wanhello/iris-admin/pkg/auth"
 
+	"go.uber.org/dig"
 
 )
 
 
 // RegisterRouter 注册/api路由
-func RegisterRouter(app *iris.Engine, container *dig.Container) error {
+func RegisterRouter(app *iris.Application, container *dig.Container) error {
 	err := ctl.Inject(container)
 	if err != nil {
 		return err
